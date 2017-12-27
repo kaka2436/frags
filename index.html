@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>青蛙过河 --- Udacity</title>
+
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#mytab" aria-expanded="false">
+                    <span class="sr-only">青蛙过河</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand">青蛙过河 <small>--UddaCity</small></a>
+            </div>
+            <div class="collapse navbar-collapse" id="mytab">
+                <ul class="nav nav-pills">
+                    <li class="navbar-btn restart">
+                        <a href="#">重新开始</a>
+                    </li>
+                    <li class="dropdown navbar-btn">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            选择人物 <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu choose-role" role="menu">
+                            <li class="player-face"><a href="#"><img src="images/char-boy.png" alt="">福娃</a></li>
+                            <li class="player-face"><a href="#"><img src="images/char-cat-girl.png" alt="">甜甜</a></li>
+                            <li class="player-face"><a href="#"><img src="images/char-horn-girl.png" alt="">忍者</a></li>
+                            <li class="player-face"><a href="#"><img src="images/char-pink-girl.png" alt="">公主</a></li>
+                            <li class="player-face"><a href="#"><img src="images/char-princess-girl.png" alt="">皇后</a></li>
+                        </ul>
+                    </li>
+                    <li class="navbar-btn">
+                        <a href="#" class="help" data-toggle="popover" title="游戏规则"
+                           data-placement="bottom" data-html="true" data-container="body"
+                           data-content="<strong>游戏控制</strong>:玩家使用键盘上的上、下、左、右键进行人物控制<br><br>
+                            <strong>胜利条件</strong>:玩家控制人物走到河边即为胜利，每一局胜利可得100分<br><br>
+                            <strong>失败条件</strong>:玩家在控制过程中，人物触碰到虫子，则失去一条生命，当所有生命耗尽时，游戏结束<br><br>
+                            <strong>红心的作用</strong>:在游戏过程中会随机出现红心，捡到红心，即可增加一条生命，玩家最多可以有五条生命<br><br>
+                            <strong>钥匙的作用</strong>:在游戏过程中会随机出现钥匙，捡到钥匙，则本关直接通过<br><br>
+                            <strong>宝石的作用</strong>:在游戏过程中会随机出现宝石，蓝色宝石可以增加300积分，黄色宝石可以增加600积分，绿色宝石可以消除场上所有的虫子">游戏规则</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="content">
+        <div class="cover">
+            <div class="message-box">
+                <div class="message">
+                    <p><span class="glyphicon glyphicon-envelope"></span></p>
+                    <p>勇士！欢迎你来到这个新世界！</p>
+                    <p>可恶的bug们阻挡了前进的道路</p>
+                    <p>消灭它们，前进吧!!!</p>
+                </div>
+                <button type="button" class="btn btn-primary btn-lg btn-start">开始游戏</button>
+            </div>
+        </div>
+        <header>
+            <div>生命: <span class="life"></span></div>
+            <div>回合: <span class="round"></span></div>
+            <div>得分: <span class="score"></span></div>
+        </header>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="js/resources.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/engine.js"></script>
+</body>
+</html>
