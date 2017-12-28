@@ -1,4 +1,32 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: app.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: app.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * Enemy类，生成敌人，也就是虫子
  * @constructor
  */
@@ -147,7 +175,7 @@ class Player {
         } else if (key == 'down') {
             y = 83;
         }
-        if (this.x + x < 0 || this.x + x > 101 * 4) {
+        if (this.x + x &lt; 0 || this.x + x > 101 * 4) {
             x = 0;
         }
         if (this.y + y > 83 * 5) {
@@ -168,7 +196,7 @@ class Player {
      * 判断玩家是否成功过河
      */
     judgeWin() {
-        if (this.y < 60) {
+        if (this.y &lt; 60) {
             win();
         }
     }
@@ -177,26 +205,26 @@ class Player {
      * 判断并处理玩家与特殊道具的碰撞，特殊道具包括：红心、钥匙、蓝宝石、绿宝石、橙宝石
      */
     judgeEffects(x, y) {
-        if (heart != null && this.collisionDetection(heart.rect, x, y)) {
-            if (this.life < 5) {
+        if (heart != null &amp;&amp; this.collisionDetection(heart.rect, x, y)) {
+            if (this.life &lt; 5) {
                 this.life++;
             }
             heart = null;
             setHreat();
-        } else if (key != null && this.collisionDetection(key.rect, x, y)) {
+        } else if (key != null &amp;&amp; this.collisionDetection(key.rect, x, y)) {
             key = null;
             win();
-        } else if (GemBlue != null && this.collisionDetection(GemBlue.rect, x, y)) {
+        } else if (GemBlue != null &amp;&amp; this.collisionDetection(GemBlue.rect, x, y)) {
             GemBlue = null;
             score += 300;
             var eScore = $('.score')[0];
             eScore.innerHTML = score;
-        } else if (GemOrange != null && this.collisionDetection(GemOrange.rect, x, y)) {
+        } else if (GemOrange != null &amp;&amp; this.collisionDetection(GemOrange.rect, x, y)) {
             GemOrange = null;
             score += 600;
             var eScore = $('.score')[0];
             eScore.innerHTML = score;
-        } else if (GemGreen != null && this.collisionDetection(GemGreen.rect, x, y)) {
+        } else if (GemGreen != null &amp;&amp; this.collisionDetection(GemGreen.rect, x, y)) {
             GemGreen = null;
             allEnemies = [];
         }
@@ -209,7 +237,7 @@ class Player {
      * @returns {boolean}   发生碰撞则返回true，否则返回false
      */
     judgeRocks(x, y) {
-        for (let i = 0; i < Rocks.length; i++) {
+        for (let i = 0; i &lt; Rocks.length; i++) {
             if (this.collisionDetection(Rocks[i].rect, x, y)) {
                 return true;
             }
@@ -221,7 +249,7 @@ class Player {
      * 判断与所有虫子的碰撞
      */
     judgeEnemy() {
-        for (let i = 0; i < allEnemies.length; i++) {
+        for (let i = 0; i &lt; allEnemies.length; i++) {
             if (this.collisionDetection(allEnemies[i].rect)) {
                 dead();
             }
@@ -294,7 +322,7 @@ class Item {
      * 判断与另一个特殊道具，是否重合
      */
     judge(item) {
-        return (this.x == item.x && this.y == item.y) ? true : false;
+        return (this.x == item.x &amp;&amp; this.y == item.y) ? true : false;
     }
 
     /**
@@ -303,21 +331,21 @@ class Item {
     judgePosition() {
         while (1) {
             var flag = false;
-            for (let i = 0; i < Rocks.length; i++) {
+            for (let i = 0; i &lt; Rocks.length; i++) {
                 if (this.judge(Rocks[i])) {
                     flag = true;
                     break;
                 }
             }
-            if (heart != null && this.judge(heart) && this !== heart) {
+            if (heart != null &amp;&amp; this.judge(heart) &amp;&amp; this !== heart) {
                 flag = true;
-            } else if (key != null && this.judge(key) && this !== key) {
+            } else if (key != null &amp;&amp; this.judge(key) &amp;&amp; this !== key) {
                 flag = true;
-            } else if (GemOrange != null && this.judge(GemOrange) && this !== GemOrange) {
+            } else if (GemOrange != null &amp;&amp; this.judge(GemOrange) &amp;&amp; this !== GemOrange) {
                 flag = true;
-            } else if (GemGreen != null && this.judge(GemGreen) && this !== GemGreen) {
+            } else if (GemGreen != null &amp;&amp; this.judge(GemGreen) &amp;&amp; this !== GemGreen) {
                 flag = true;
-            } else if (GemBlue != null && this.judge(GemBlue) && this !== GemBlue) {
+            } else if (GemBlue != null &amp;&amp; this.judge(GemBlue) &amp;&amp; this !== GemBlue) {
                 flag = true;
             }
             if (flag) {
@@ -387,7 +415,7 @@ function createEnemy() {
  */
 function createRocks() {
     let rocksNum = Math.random() * 3 + 1;
-    for (let i = 0; i < rocksNum; i++) {
+    for (let i = 0; i &lt; rocksNum; i++) {
         var rock = new Item('images/Rock.png');
         rock.judgePosition();
         rock.setRect();
@@ -400,23 +428,23 @@ function createRocks() {
  */
 function createItems() {
     var index = Math.floor(Math.random() * 50);
-    if (index == 0 && heart == null) {
+    if (index == 0 &amp;&amp; heart == null) {
         heart = new Item('images/Heart.png');
         heart.judgePosition();
         heart.setRect();
-    } else if (index == 10 && key == null) {
+    } else if (index == 10 &amp;&amp; key == null) {
         key = new Item('images/Key.png');
         key.judgePosition();
         key.setRect();
-    } else if (index == 20 && GemBlue == null) {
+    } else if (index == 20 &amp;&amp; GemBlue == null) {
         GemBlue = new Item('images/Gem Blue.png');
         GemBlue.judgePosition();
         GemBlue.setRect();
-    } else if (index == 30 && GemGreen == null) {
+    } else if (index == 30 &amp;&amp; GemGreen == null) {
         GemGreen = new Item('images/Gem Green.png');
         GemGreen.judgePosition();
         GemGreen.setRect();
-    } else if (index == 49 && GemOrange == null) {
+    } else if (index == 49 &amp;&amp; GemOrange == null) {
         GemOrange = new Item('images/Gem Orange.png');
         GemOrange.judgePosition();
         GemOrange.setRect();
@@ -437,7 +465,7 @@ function setRound() {
 function setHreat() {
     var life = $('.life')[0];
     $('.life').empty();
-    for (let i = 0; i < player.life; i++) {
+    for (let i = 0; i &lt; player.life; i++) {
         var hreat = document.createElement('span');
         hreat.className = 'glyphicon glyphicon-heart';
         life.appendChild(hreat);
@@ -449,7 +477,7 @@ function setHreat() {
  * 新回合开始的时候，随机在界面上产生三个敌人，其余的敌人的起始位置都是在界面的最左端
  */
 function initEnemy() {
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i &lt; 3; i++) {
         var enemy = new Enemy(enemySpeed);
         enemy.randomPosition();
         enemy.x = Math.floor(Math.random() * 101 * 2);
@@ -552,7 +580,7 @@ function win() {
  */
 function dead() {
     player.life--;
-    if (player.life <= 0) {
+    if (player.life &lt;= 0) {
         defeated();
         return;
     }
@@ -568,7 +596,7 @@ function dead() {
  * 当玩家生命值耗尽时调用
  */
 function defeated() {
-    $('.message')[0].innerHTML = `<p>前路漫漫</p><p>难免会有坎坷</p><p>收拾行装</p><p>重新上路</p>`;
+    $('.message')[0].innerHTML = `&lt;p>前路漫漫&lt;/p>&lt;p>难免会有坎坷&lt;/p>&lt;p>收拾行装&lt;/p>&lt;p>重新上路&lt;/p>`;
     $('.btn-start')[0].innerHTML = '重新开始';
     restart();
 }
@@ -587,4 +615,26 @@ document.addEventListener('keyup', function(e) {
 });
 $(document).ready(function() {
     initGame();
-});
+});</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Enemy.html">Enemy</a></li><li><a href="Item.html">Item</a></li><li><a href="Player.html">Player</a></li></ul><h3>Global</h3><ul><li><a href="global.html#createEnemy">createEnemy</a></li><li><a href="global.html#createItems">createItems</a></li><li><a href="global.html#createRocks">createRocks</a></li><li><a href="global.html#dead">dead</a></li><li><a href="global.html#defeated">defeated</a></li><li><a href="global.html#initEnemy">initEnemy</a></li><li><a href="global.html#initGame">initGame</a></li><li><a href="global.html#initGlobal">initGlobal</a></li><li><a href="global.html#initInterFace">initInterFace</a></li><li><a href="global.html#player">player</a></li><li><a href="global.html#restart">restart</a></li><li><a href="global.html#setHreat">setHreat</a></li><li><a href="global.html#setRound">setRound</a></li><li><a href="global.html#win">win</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Thu Dec 28 2017 16:51:44 GMT+0800 (CST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
