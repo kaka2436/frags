@@ -64,7 +64,6 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
-        // checkCollisions();
     }
 
     /* 这个函数会遍历在 app.js 定义的存放所有敌人实例的数组，并且调用他们的 update()
@@ -123,6 +122,21 @@ var Engine = (function(global) {
             rock.render();
         });
         player.render();
+        if(heart != null){
+            heart.render();
+        }
+        if(key != null){
+            key.render();
+        }
+        if(GemOrange != null){
+            GemOrange.render();
+        }
+        if(GemGreen != null){
+            GemGreen.render();
+        }
+        if(GemBlue != null){
+            GemBlue.render();
+        }
     }
 
     /* 这个函数现在没干任何事，但是这会是一个好地方让你来处理游戏重置的逻辑。可能是一个
@@ -146,7 +160,12 @@ var Engine = (function(global) {
         'images/char-cat-girl.png',
         'images/char-horn-girl.png',
         'images/char-pink-girl.png',
-        'images/char-princess-girl.png'
+        'images/char-princess-girl.png',
+        'images/Heart.png',
+        'images/Key.png',
+        'images/Gem Blue.png',
+        'images/Gem Green.png',
+        'images/Gem Orange.png'
     ]);
     Resources.onReady(init);
 

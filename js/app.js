@@ -1,8 +1,8 @@
 class Enemy{
-    constructor(){
+    constructor(speed = 0){
         this.x = -100;
         this.y = 0;
-        this.speed = 110;
+        this.speed = 110 + speed;
         this.sprite = 'images/enemy-bug.png';
         this.rect = {
             width:101,
@@ -36,16 +36,6 @@ class Enemy{
         this.y = Math.floor(Math.random()*3 + 1) * 83 -20;
     }
 }
-
-function createEnemy() {
-    clearTimeout(enemyTimer);
-    var enemy = new Enemy();
-    enemy.randomPosition();
-    allEnemies.push(enemy);
-    var t = Math.round(Math.random() * 1200) + 1000;
-    enemyTimer = setTimeout(createEnemy,t);
-}
-
 class Player {
     constructor(){
         this.x = 101 * 2;
@@ -111,11 +101,37 @@ class Player {
         this.x += x;
         this.y += y;
         this.judgeWin();
+        this.judgeEffects(x,y);
     }
-    
+
     judgeWin(){
         if (this.y < 60){
             win();
+        }
+    }
+    judgeEffects(x,y){
+        if(heart != null && this.collisionDetection(heart.rect,x,y)){
+            if(this.life < 5){
+                this.life++;
+            }
+            heart=null;
+            setHreat();
+        }else if(key != null && this.collisionDetection(key.rect,x,y)){
+            key=null;
+            win();
+        }else if(GemBlue != null && this.collisionDetection(GemBlue.rect,x,y)){
+            GemBlue=null;
+            score+=300;
+            var eScore = $('.score')[0];
+            eScore.innerHTML = score;
+        }else if(GemOrange != null && this.collisionDetection(GemOrange.rect,x,y)){
+            GemOrange=null;
+            score+=600;
+            var eScore = $('.score')[0];
+            eScore.innerHTML = score;
+        }else if(GemGreen != null && this.collisionDetection(GemGreen.rect,x,y)){
+            GemGreen=null;
+            allEnemies = [];
         }
     }
     judgeRocks(x,y){
@@ -150,12 +166,11 @@ class Player {
         return true;
     }
 }
-
-
-class Rock{
-    constructor(){
+class Item{
+    constructor(sprite){
         this.x = 0;
         this.y = 0;
+        this.sprite = sprite;
         this.randomPosition();
         this.rect = {
             width:101,
@@ -165,14 +180,41 @@ class Rock{
         };
     }
     render(){
-        ctx.drawImage(Resources.get('images/Rock.png'),this.x,this.y);
+        ctx.drawImage(Resources.get(this.sprite),this.x,this.y);
     }
     setRect(){
         this.rect.centerX = Math.ceil(this.x + 101/2);
         this.rect.centerY = Math.ceil(this.y + 83/2);
     }
-    judge(rock) {
-        return (this.x == rock.x && this.y == rock.y) ? 1 : 0;
+    judge(item) {
+        return (this.x == item.x && this.y == item.y) ? 1 : 0;
+    }
+    judgePosition() {
+        while(1){
+            var flag = 0;
+            for(let i = 0 ; i < Rocks.length ; i++){
+                if (this.judge(Rocks[i])){
+                    flag = 1;
+                    break;
+                }
+            }
+            if(heart != null && this.judge(heart) && this !== heart){
+                flag = 1;
+            }else if(key != null && this.judge(key) && this !== key){
+                flag = 1;
+            }else if(GemOrange != null && this.judge(GemOrange) && this !== GemOrange){
+                flag = 1;
+            }else if(GemGreen != null && this.judge(GemGreen) && this !== GemGreen){
+                flag = 1;
+            }else if(GemBlue != null && this.judge(GemBlue) && this !== GemBlue){
+                flag = 1;
+            }
+            if(flag){
+                this.randomPosition();
+            }else{
+                break;
+            }
+        }
     }
     randomPosition(){
         let x = Math.floor(Math.random()*5)*101;
@@ -181,80 +223,62 @@ class Rock{
         this.y = y;
     }
 }
-function createRocks() {
-    let rocksNum = Math.random() * 3 + 2;
-    for(let i = 0 ; i < rocksNum; i++){
-        var rock = new Rock();
-        judgeRockPosition(rock);
-        rock.setRect();
-        Rocks.push(rock);
-    }
-}
-function judgeRockPosition(rock) {
-    while(1){
-        var flag = 0;
-        for(let i = 0 ; i < Rocks.length ; i++){
-            if (rock.judge(Rocks[i])){
-                falg = 1;
-                break;
-            }
-        }
-        if(flag){
-            rock.randomPosition();
-        }else{
-            break;
-        }
-    }
-}
-
-
 
 var player = new Player();
 var allEnemies = new Array();
 var Rocks = new Array();
+var heart = null;
+var key = null;
+var GemBlue = null;
+var GemGreen = null;
+var GemOrange = null;
 var round = 1;
 var score = 0;
 var enemyTimer;
+var itemTimer;
+var enemySpeed = 0;
 
-function initGame() {
-    round = 1;
-    score = 0;
-    player.resetAttr();
-    allEnemies = [];
-    Rocks = [];
-    $(function () { $("[data-toggle='popover']").popover(); });
-    initInterFace();
-}
-
-function initInterFace() {
-    setRound();
-    setHreat();
-    var eScore = $('.score')[0];
-    eScore.innerHTML = score;
-    $('.restart').click(function () {
-        restart();
-    });
-    $('li.player-face').click(function () {
-        player.resetFace($(this).find('img').attr('src'));
-    });
-    $('.btn-start').click(function () {
-        createEnemy();
-        createRocks();
-        $('.cover')[0].style.display = 'none';
-    });
-}
-function restart() {
-    round = 1;
-    score = 0;
-    player.resetAttr();
-    allEnemies = [];
-    Rocks = [];
+function createEnemy() {
     clearTimeout(enemyTimer);
-    setRound();
-    setHreat();
-    $('.cover')[0].style.display = 'flex';
-    var eScore = $('.score')[0];
-    eScore.innerHTML = score;
+    var enemy = new Enemy(enemySpeed);
+    enemy.randomPosition();
+    allEnemies.push(enemy);
+
+    var t = Math.round(Math.random() * 1000) + 1000;
+    enemyTimer = setTimeout(createEnemy,t-enemySpeed*6);
+}
+function createRocks() {
+    let rocksNum = Math.random() * 3 + 1;
+    for(let i = 0 ; i < rocksNum; i++){
+        var rock = new Item('images/Rock.png');
+        rock.judgePosition();
+        rock.setRect();
+        Rocks.push(rock);
+    }
+}
+function createItems() {
+    var index = Math.floor(Math.random()*50);
+    if(index == 0 && heart == null){
+        heart = new Item('images/Heart.png');
+        heart.judgePosition();
+        heart.setRect();
+    }else if(index == 10 && key == null){
+        key = new Item('images/Key.png');
+        key.judgePosition();
+        key.setRect();
+    }else if(index == 20 && GemBlue == null){
+        GemBlue = new Item('images/Gem Blue.png');
+        GemBlue.judgePosition();
+        GemBlue.setRect();
+    }else if(index == 30 && GemGreen == null){
+        GemGreen = new Item('images/Gem Green.png');
+        GemGreen.judgePosition();
+        GemGreen.setRect();
+    }else if(index == 49 && GemOrange == null){
+        GemOrange = new Item('images/Gem Orange.png');
+        GemOrange.judgePosition();
+        GemOrange.setRect();
+    }
 }
 function setRound() {
     var eround = $(".round")[0];
@@ -269,21 +293,81 @@ function setHreat() {
         life.appendChild(hreat);
     }
 }
+function initEnemy() {
+    for(let i = 0 ; i < 3; i++){
+        var enemy = new Enemy(enemySpeed);
+        enemy.randomPosition();
+        enemy.x = Math.floor(Math.random()*101*2);
+        allEnemies.push(enemy);
+    }
+}
 
+function initGame() {
+    round = 1;
+    score = 0;
+    player.resetAttr();
+    allEnemies = [];
+    Rocks = [];
+    initInterFace();
+}
+function initInterFace() {
+    setRound();
+    setHreat();
+    var eScore = $('.score')[0];
+    eScore.innerHTML = score;
+    $('.restart').click(function () {
+        restart();
+    });
+    $('li.player-face').click(function () {
+        player.resetFace($(this).find('img').attr('src'));
+    });
+    $('.btn-start').click(function () {
+        createEnemy();
+        createRocks();
+        initEnemy();
+        itemTimer = setInterval(createItems,1000);
+        $('.cover')[0].style.display = 'none';
+    });
+    $(function () { $("[data-toggle='popover']").popover(); });
+}
+function initGlobal() {
+    allEnemies = [];
+    Rocks = [];
+    heart = null;
+    key = null;
+    GemBlue = null;
+    GemGreen = null;
+    GemOrange = null;
+}
+function restart() {
+    enemySpeed = 0;
+    round = 1;
+    score = 0;
+    player.resetAttr();
+    initGlobal();
+    setRound();
+    setHreat();
+    clearTimeout(enemyTimer);
+    clearInterval(itemTimer);
+    $('.cover')[0].style.display = 'flex';
+    var eScore = $('.score')[0];
+    eScore.innerHTML = score;
+}
 function win() {
+    initGlobal();
+    enemySpeed += 8;
     round++;
     setRound();
     score += 100;
     var eScore = $('.score')[0];
     eScore.innerHTML = score;
+
     player.x = 101 * 2;
     player.y = 83 * 5 - 10;
-    allEnemies = [];
-    Rocks = [];
     createEnemy();
     createRocks();
+    initEnemy();
 }
-
 function dead() {
     player.life--;
     if(player.life <= 0){
@@ -293,19 +377,15 @@ function dead() {
     setHreat();
     player.x = 101 * 2;
     player.y = 83 * 5 - 10;
-    allEnemies = [];
-    Rocks = [];
-    createEnemy();
+    initGlobal();
     createRocks();
-
+    initEnemy();
 }
-
 function defeated() {
     $('.message')[0].innerHTML = `<p>前路漫漫</p><p>难免会有坎坷</p><p>收拾行装</p><p>重新上路</p>`;
     $('.btn-start')[0].innerHTML = '重新开始';
     restart();
 }
-
 // 这段代码监听游戏玩家的键盘点击事件并且代表将按键的关键数字送到 Play.handleInput()
 // 方法里面。你不需要再更改这段代码了。
 document.addEventListener('keyup', function(e) {
