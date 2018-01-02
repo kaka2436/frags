@@ -56,3 +56,6 @@ header {
 .glyphicon-heart {
     color: red;
 }
+.navbar-collapse.in{
+    overflow-y: visible;
+}
